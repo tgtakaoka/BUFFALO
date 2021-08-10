@@ -1,4 +1,4 @@
-AS=asl -gnuerrors -L +t 0x0c -q -cpu 68HC11
+AS=asl -gnuerrors -L +t 0x0c -q -cpu 6811
 OBJCOPY=p2hex -k -l 32 -F Moto +5 -r '$$-$$'
 
 %.p:	%.ASM
