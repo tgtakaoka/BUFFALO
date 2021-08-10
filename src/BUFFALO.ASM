@@ -5007,7 +5007,7 @@ DONE     CLR  TMP2      ;Set load vs. verify
          LDS  #STACK    ;Reset Stack
          JMP  $C0B3     ;Jump to Downloaded code
 
-MSGEVB   FCC  /cat evbtest.out/
+MSGEVB   FCC  'cat evbtest.out'
          FCB  $0D
          FCB  $04
 
