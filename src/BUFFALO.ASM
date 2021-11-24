@@ -63,7 +63,8 @@
 ;***************
 ;*Author EQU  Tony Fourcroy
 RAMBS   EQU  $0000      ;start of ram
-REGBS   EQU  $1000      ;start of registers
+;REGBS   EQU  $1000      ;start of registers
+REGBS   EQU  $0000      ;start of registers
 ROMBS   EQU  $E000      ;start of rom
 DSTREE  EQU  $B600      ;start of eeprom
 DENDEE  EQU  $B7FF      ;end of eeprom
@@ -90,7 +91,8 @@ DFLOP   EQU  $4000      ;evb d flip flop
 DUART   EQU  $D000      ;duart address
 PORTA   EQU  DUART
 PORTB   EQU  DUART+8
-ACIA    EQU  $9800      ;acia address
+;ACIA    EQU  $9800      ;acia address
+ACIA    EQU  $DF00      ;acia address
 PROMPT  EQU  '>'
 BUFFLNG EQU  35
 CTLA    EQU  $01        ;exit host or assembler
@@ -1003,7 +1005,8 @@ OUTUART3 RTS
 ;*   ONSCI() - Initialize the SCI for 9600
 ;*                 baud at 8 MHz Extal.
 ;**********
-ONSCI    LDAA #$30
+;ONSCI    LDAA #$30
+ONSCI    LDAA #$00              ; E/16
          STAA BAUD        ;baud register
          LDAA #$00
          STAA SCCR1
