@@ -63,7 +63,7 @@
 ;***************
 ;*Author EQU  Tony Fourcroy
 RAMBS   EQU  $0000      ;start of ram
-REGBS   EQU  $1000      ;start of registers
+REGBS   EQU  $0000      ;start of registers MC68HC11D
 ROMBS   EQU  $E000      ;start of rom
 DSTREE  EQU  $B600      ;start of eeprom
 DENDEE  EQU  $B7FF      ;end of eeprom
@@ -90,7 +90,7 @@ DFLOP   EQU  $4000      ;evb d flip flop
 DUART   EQU  $D000      ;duart address
 PORTA   EQU  DUART
 PORTB   EQU  DUART+8
-ACIA    EQU  $9800      ;acia address
+ACIA    EQU  $DF00      ;acia address of BionicMC68HC11D
 PROMPT  EQU  '>'
 BUFFLNG EQU  35
 CTLA    EQU  $01        ;exit host or assembler
@@ -1003,7 +1003,7 @@ OUTUART3 RTS
 ;*   ONSCI() - Initialize the SCI for 9600
 ;*                 baud at 8 MHz Extal.
 ;**********
-ONSCI    LDAA #$30
+ONSCI    LDAA #$00        ; use E/16 clock on BionicMC68HC11D
          STAA BAUD        ;baud register
          LDAA #$00
          STAA SCCR1
@@ -4950,12 +4950,12 @@ BTDONE  RTS
 ;*Subroutine
 ;*  btsub   - sets up SCI and outputs control character
 ;* On entry, B = control character
-;* On exit,  X = $1000
+;* On exit,  X = REGBS
 ;*           A = $0C
 ;***************************
 
 BTSUB   EQU   *
-        LDX   #$1000    ;to use indexed addressing
+        LDX   #REGBS    ;to use indexed addressing
         LDAA  #$02
         STAA  JPORTD,X  ;drive transmitter line
         STAA  JDDRD,X   ;  high
@@ -4983,7 +4983,7 @@ TILDE   RTS
 ;******************
 
 EVBTEST  LDAA  #$FF
-         STAA  $1000    ;Write ones to port A
+         STAA  REGBS+0  ;Write ones to port A
          CLR  AUTOLF    ;Turn off auto lf
          JSR  HOSTCO    ;Connect host
          JSR  HOSTINIT  ;Initialize host
