@@ -332,9 +332,9 @@ MAIN2    CMPA #$D
          BNE  MAIN3     ;jump if not cr
          TSTB
          BEQ  COMM0     ;jump if buffer empty
-         STAA ,X        ;put a in buffer
+         STAA 0,X       ;put a in buffer
          BRA  COMM0
-MAIN3    STAA ,X        ;put a in buffer
+MAIN3    STAA 0,X       ;put a in buffer
          INCB
          CMPB #BUFFLNG
          BLE  MAIN4     ;jump if not long
@@ -374,7 +374,7 @@ COMM1    EQU  *
          LDX  #COMBUFF
          ABX
          JSR  UPCASE    ;convert to upper case
-         STAA ,X        ;put in command buffer
+         STAA 0,X       ;put in command buffer
          CMPA #$0D
          BEQ  SRCH      ;jump if cr
          JSR  WCHEK
@@ -1622,7 +1622,7 @@ DUMPDAT  JSR  OUT1BSP   ;hex value loop
          CLRB           ;loop counter
 DUMPASC  LDX  PTR1      ;base address
          ABX
-         LDAA ,X        ;ascii value loop
+         LDAA 0,X       ;ascii value loop
          CMPA #$20
          BLO  DUMP3     ;jump if non printable
          CMPA #$7A
@@ -1991,7 +1991,7 @@ MOVE2    STX  PTR3
          STD  PTR3        ;dest = dest+(src2-src1)
          LDX  PTR2
 MOVELP1  JSR  CHKABRT     ;check for abort
-         LDAA ,X          ;char at src2
+         LDAA 0,X         ;char at src2
          PSHX
          LDX  PTR3
          JSR  WRITE       ;write a to x
@@ -2012,7 +2012,7 @@ MOVELP1  JSR  CHKABRT     ;check for abort
 
 MOVE3    LDX  PTR1        ;srce1
 MOVELP2  JSR  CHKABRT     ;check for abort
-         LDAA ,X
+         LDAA 0,X
          PSHX
          LDX  PTR3        ;dest
          JSR  WRITE       ;write a to x
@@ -5015,37 +5015,37 @@ MSGEVB   FCC  /cat evbtest.out/
 
 ;*** Jump table ***
         ORG     ROMBS+$1F7C
-.WARMST JMP     MAIN        ;warm start
-.BPCLR  JMP     BPCLR       ;clear breakpoint table
-.RPRINT JMP     RPRINT      ;display user registers
-.HEXBIN JMP     HEXBIN      ;convert ascii hex char to binary
-.BUFFAR JMP     BUFFARG     ;build hex argument from buffer
-.TERMAR JMP     TERMARG     ;read hex argument from terminal
-.CHGBYT JMP     CHGBYT      ;modify memory at address in x
-.READBU JMP     READBUFF    ;read character from buffer
-.INCBUF JMP     INCBUFF     ;increment buffer pointer
-.DECBUF JMP     DECBUFF     ;decrement buffer pointer
-.WSKIP  JMP     WSKIP       ;find non-whitespace char in buffer
-.CHKABR JMP     CHKABRT     ;check for abort from terminal
+_WARMST JMP     MAIN        ;warm start
+_BPCLR  JMP     BPCLR       ;clear breakpoint table
+_RPRINT JMP     RPRINT      ;display user registers
+_HEXBIN JMP     HEXBIN      ;convert ascii hex char to binary
+_BUFFAR JMP     BUFFARG     ;build hex argument from buffer
+_TERMAR JMP     TERMARG     ;read hex argument from terminal
+_CHGBYT JMP     CHGBYT      ;modify memory at address in x
+_READBU JMP     READBUFF    ;read character from buffer
+_INCBUF JMP     INCBUFF     ;increment buffer pointer
+_DECBUF JMP     DECBUFF     ;decrement buffer pointer
+_WSKIP  JMP     WSKIP       ;find non-whitespace char in buffer
+_CHKABR JMP     CHKABRT     ;check for abort from terminal
 
         ORG     ROMBS+$1FA0
-.UPCASE JMP     UPCASE      ;convert to upper case
-.WCHEK  JMP     WCHEK       ;check for white space
-.DCHEK  JMP     DCHEK       ;check for delimeter
-.INIT   JMP     INIT        ;initialize i/o device
-.INPUT  JMP     INPUT       ;low level input routine
-.OUTPUT JMP     OUTPUT      ;low level output routine
-.OUTLHL JMP     OUTLHLF     ;display top 4 bits as hex digit
-.OUTRHL JMP     OUTRHLF     ;display bottom 4 bits as hex digit
-.OUTA   JMP     OUTA        ;output ascii character in A
-.OUT1BY JMP     OUT1BYT     ;display the hex value of byte at X
-.OUT1BS JMP     OUT1BSP     ;out1byt followed by space
-.OUT2BS JMP     OUT2BSP     ;display 2 hex bytes at x and a space
-.OUTCRL JMP     OUTCRLF     ;carriage return, line feed to terminal
-.OUTSTR JMP     OUTSTRG     ;display string at X (term with $04)
-.OUTST0 JMP     OUTSTRG0    ;outstrg with no initial carr ret
-.INCHAR JMP     INCHAR      ;wait for and input a char from term
-.VECINT JMP     VECINIT     ;initialize RAM vector table
+_UPCASE JMP     UPCASE      ;convert to upper case
+_WCHEK  JMP     WCHEK       ;check for white space
+_DCHEK  JMP     DCHEK       ;check for delimeter
+_INIT   JMP     INIT        ;initialize i/o device
+_INPUT  JMP     INPUT       ;low level input routine
+_OUTPUT JMP     OUTPUT      ;low level output routine
+_OUTLHL JMP     OUTLHLF     ;display top 4 bits as hex digit
+_OUTRHL JMP     OUTRHLF     ;display bottom 4 bits as hex digit
+_OUTA   JMP     OUTA        ;output ascii character in A
+_OUT1BY JMP     OUT1BYT     ;display the hex value of byte at X
+_OUT1BS JMP     OUT1BSP     ;out1byt followed by space
+_OUT2BS JMP     OUT2BSP     ;display 2 hex bytes at x and a space
+_OUTCRL JMP     OUTCRLF     ;carriage return, line feed to terminal
+_OUTSTR JMP     OUTSTRG     ;display string at X (term with $04)
+_OUTST0 JMP     OUTSTRG0    ;outstrg with no initial carr ret
+_INCHAR JMP     INCHAR      ;wait for and input a char from term
+_VECINT JMP     VECINIT     ;initialize RAM vector table
 
          ORG    ROMBS+$1FD6
 ;*** Vectors ***
